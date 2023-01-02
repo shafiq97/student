@@ -19,11 +19,17 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 
-
 data = pd.read_csv("student-mat.csv")
 
+# 3
+data['pass'] = data.apply(lambda row: 1 if row['G1'] + row['G2'] + row['G3'] >= 35 else 0, axis=1)
+data.to_csv('student-mat.csv"', index=False)
+
+# 2
+data = pd.get_dummies(data, columns=['school', 'sex', 'address', 'famsize', 'Pstatus', 'Mjob', 'Fjob', 'reason', 'guardian', 'schoolsup', 'famsup', 'paid', 'activities', 'nursery', 'higher', 'internet', 'romantic'])
+
 # 4.1
-data = data[["G1", "G2", "G3", "studytime", "failures", "absences"]]
+# data = data[["G1", "G2", "G3", "studytime", "failures", "absences"]]
 predict = "G3"
 x = np.array(data.drop([predict], 1))
 y = np.array(data[predict])
